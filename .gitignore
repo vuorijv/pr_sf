@@ -1,17 +1,35 @@
+tudio / Eclipse
+.buildpath
+.project
+
+# emacs 
+*~
+\#*
+.\#*
+
 # Bootstrap
 app/bootstrap*
 
 # Symfony directories
+data
 vendor/*
 */logs/*
 */cache/*
 web/uploads/*
 web/bundles/*
+web/files
+web/staticimages
+web/images
 
 # Configuration files
-app/config/parameters.ini
 app/config/parameters.yml
 
-
-#PhpStorm Related stuff
+#PHPStrom configurations
 .idea
+
+#Custom scripts
+clear
+
+#Live XML
+xml/live
+
