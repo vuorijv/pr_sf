@@ -22,6 +22,9 @@ class TournamentAdmin extends Admin
     {
         $formMapper->add('name')
             ->add('description')
+            ->add('league', 'sonata_type_model', array('label' => 'Liiga',
+                    'multiple' => false,
+                    'expanded' => false,))
             ;
     }
 

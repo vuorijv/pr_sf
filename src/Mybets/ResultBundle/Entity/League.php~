@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Tournament
+ * Mybets\ResultBundle\Entity\League
  *
- * @ORM\Table(name="tournament")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\TournamentRepository")
+ * @ORM\Table(name="league")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\LeagueRepository")
  *
  */
-class Tournament
+class League
 {
     /**
      * @var integer $id
@@ -35,10 +35,15 @@ class Tournament
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="tournaments")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id", nullable=true)
+    * @ORM\OneToMany(targetEntity="Tournament", mappedBy="league", cascade={"all"}, orphanRemoval=true)
+    */
+    protected $tournaments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Sport", inversedBy="leagues")
+     * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=true)
      */
-    protected $league;
+    protected $sport;
 
     /**
      * @var datetime $created
@@ -155,22 +160,52 @@ class Tournament
 
 
     /**
-     * Get league
+     * Add tournament
      *
-     * @return Mybets\ResultBundle\Entity\League
+     * @param Mybets\ResultBundle\Entity\Tournament $tournament
      */
-    public function getLeague()
+    public function addLeague(\Mybets\ResultBundle\Entity\Tournament $tournament)
     {
-        return $this->league;
+        $this->tournaments[] = $league;
     }
 
     /**
-     * Set league
+     * Remove tournament
      *
-     * @param Mybets\ResultBundle\Entity\League $league
+     * @param Mybets\ResultBundle\Entity\Tournament $tournament
      */
-    public function setLeague($league)
+    public function removeBookCharacter(\Mybets\ResultBundle\Entity\Tournament $tournament)
     {
-        $this->league = $league;
+       $this->leagues->removeElement($tournament);
+    }
+
+    /**
+     * Get tournaments
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getTournaments()
+    {
+        return $this->tournaments;
+    }
+
+    /**
+     * Get sport
+     *
+     * @return Mybets\ResultBundle\Entity\Sport
+     */
+    public function getSport()
+    {
+        return $this->sport;
+    }
+
+    /**
+     * Set sport
+     *
+     * @param Mybets\ResultBundle\Entity\Sport $sport
+     */
+    public function setSport($sport)
+    {
+        $this->sport = $sport;
     }
 }

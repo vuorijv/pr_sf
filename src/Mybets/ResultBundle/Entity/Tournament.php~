@@ -173,4 +173,14 @@ class Tournament
     {
         $this->league = $league;
     }
+
+    /**
+     * toString
+     *
+     * @return text
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
