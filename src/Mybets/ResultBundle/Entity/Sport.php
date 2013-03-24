@@ -62,6 +62,12 @@ class Sport
         $this->leagues = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        if($this->getName() !== null) return $this->getName();
+        else return "";
+    }
+
     /**
      * Get id
      *

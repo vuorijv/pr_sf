@@ -22,11 +22,9 @@ class LeagueAdmin extends Admin
     {
         $formMapper->add('name')
             ->add('description')
-            ->with('tournaments')
-            ->add('tournaments', 'sonata_type_collection',
-            array('by_reference' => false, 'required' => false),
-            array('edit' => 'inline', 'inline' => 'table', 'sortable' => 'position')
-        );
+            ->add('sport', 'sonata_type_model', array('label' => 'Laji',
+                    'multiple' => false,
+                    'expanded' => false,));
     }
 
 

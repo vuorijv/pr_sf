@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Tournament
+ * Mybets\ResultBundle\Entity\Sport
  *
- * @ORM\Table(name="tournament")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\TournamentRepository")
+ * @ORM\Table(name="sport")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\SportRepository")
  *
  */
-class Tournament
+class Sport
 {
     /**
      * @var integer $id
@@ -35,10 +35,9 @@ class Tournament
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="tournaments")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToMany(targetEntity="League", mappedBy="sport", cascade={"all"}, orphanRemoval=true)
      */
-    protected $league;
+    protected $leagues;
 
     /**
      * @var datetime $created
@@ -60,7 +59,7 @@ class Tournament
 
     public function __construct()
     {
-        ##$this->tournaments = new ArrayCollection();
+        $this->leagues = new ArrayCollection();
     }
 
     /**
@@ -155,22 +154,33 @@ class Tournament
 
 
     /**
-     * Get league
-     *
-     * @return Mybets\ResultBundle\Entity\League
-     */
-    public function getLeague()
-    {
-        return $this->league;
-    }
-
-    /**
-     * Set league
+     * Add league
      *
      * @param Mybets\ResultBundle\Entity\League $league
      */
-    public function setLeague($league)
+    public function addLeague(\Mybets\ResultBundle\Entity\League $league)
     {
-        $this->league = $league;
+        $this->leagues[] = $league;
     }
+
+    /**
+     * Remove league
+     *
+     * @param Mybets\ResultBundle\Entity\League $league
+     */
+    public function removeLeague(\Mybets\ResultBundle\Entity\League $league)
+    {
+        $this->leagues->removeElement($league);
+    }
+
+    /**
+     * Get leagues
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getLeagues()
+    {
+        return $this->leagues;
+    }
+
 }
