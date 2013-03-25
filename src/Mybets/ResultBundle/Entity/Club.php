@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Tournament
+ * Mybets\ResultBundle\Entity\Club
  *
- * @ORM\Table(name="tournament")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\TournamentRepository")
+ * @ORM\Table(name="club")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\ClubRepository")
  *
  */
-class Tournament
+class Club
 {
     /**
      * @var integer $id
@@ -30,19 +30,29 @@ class Tournament
     protected $name;
 
     /**
+    * @Gedmo\Slug(fields={"name"}, unique=false)
+    * @ORM\Column(type="string", length=128, unique=false)
+    */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $city;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $established;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="tournaments")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToMany(targetEntity="Team", mappedBy="club", cascade={"all"}, orphanRemoval=true)
      */
-    protected $league;
-
-    /**
-    * @ORM\OneToMany(targetEntity="Team", mappedBy="league", cascade={"all"}, orphanRemoval=true)
-    */
     protected $teams;
 
     /**
@@ -65,19 +75,21 @@ class Tournament
 
     public function __construct()
     {
-        ##$this->tournaments = new ArrayCollection();
+        $this->leagues = new ArrayCollection();
     }
-
 
     public function __toString()
     {
         if($this->getName() !== null) return $this->getName();
         else return "";
     }
+
+
+
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -88,16 +100,19 @@ class Tournament
      * Set name
      *
      * @param string $name
+     * @return Club
      */
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
     }
 
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -105,19 +120,91 @@ class Tournament
     }
 
     /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Club
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Club
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set established
+     *
+     * @param string $established
+     * @return Club
+     */
+    public function setEstablished($established)
+    {
+        $this->established = $established;
+    
+        return $this;
+    }
+
+    /**
+     * Get established
+     *
+     * @return string 
+     */
+    public function getEstablished()
+    {
+        return $this->established;
+    }
+
+    /**
      * Set description
      *
-     * @param text $description
+     * @param string $description
+     * @return Club
      */
     public function setDescription($description)
     {
         $this->description = $description;
+    
+        return $this;
     }
 
     /**
      * Get description
      *
-     * @return text
+     * @return string 
      */
     public function getDescription()
     {
@@ -127,17 +214,20 @@ class Tournament
     /**
      * Set created
      *
-     * @param datetime $created
+     * @param \DateTime $created
+     * @return Club
      */
     public function setCreated($created)
     {
         $this->created = $created;
+    
+        return $this;
     }
 
     /**
      * Get created
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getCreated()
     {
@@ -147,49 +237,31 @@ class Tournament
     /**
      * Set updated
      *
-     * @param datetime $updated
+     * @param \DateTime $updated
+     * @return Club
      */
     public function setUpdated($updated)
     {
         $this->updated = $updated;
+    
+        return $this;
     }
 
     /**
      * Get updated
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getUpdated()
     {
         return $this->updated;
     }
 
-
-    /**
-     * Get league
-     *
-     * @return Mybets\ResultBundle\Entity\League
-     */
-    public function getLeague()
-    {
-        return $this->league;
-    }
-
-    /**
-     * Set league
-     *
-     * @param Mybets\ResultBundle\Entity\League $league
-     */
-    public function setLeague($league)
-    {
-        $this->league = $league;
-    }
-
     /**
      * Add teams
      *
      * @param \Mybets\ResultBundle\Entity\Team $teams
-     * @return Tournament
+     * @return Club
      */
     public function addTeam(\Mybets\ResultBundle\Entity\Team $teams)
     {

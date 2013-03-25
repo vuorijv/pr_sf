@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class TournamentAdmin extends Admin
+class ClubAdmin extends Admin
 {
     protected $translationDomain = 'SonataAdminBundle';
 
@@ -22,14 +22,13 @@ class TournamentAdmin extends Admin
     {
         $formMapper->add('name')
             ->add('description')
-            ->add('league', 'sonata_type_model', array('label' => 'Liiga',
-                    'multiple' => false,
-                    'expanded' => false,))
+            ->add('city')
+            ->add('established')
             ->with('teams')
             ->add('teams', 'sonata_type_collection',
             array('by_reference' => false, 'required' => false),
-            array('edit' => 'inline', 'inline' => 'table', 'sortable' => 'position'))
-            ;
+            array('edit' => 'inline', 'inline' => 'table', 'sortable' => 'position')
+        );
     }
 
 

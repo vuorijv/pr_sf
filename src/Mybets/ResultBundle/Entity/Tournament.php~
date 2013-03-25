@@ -41,6 +41,11 @@ class Tournament
     protected $league;
 
     /**
+    * @ORM\OneToMany(targetEntity="Team", mappedBy="league", cascade={"all"}, orphanRemoval=true)
+    */
+    protected $teams;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -175,12 +180,35 @@ class Tournament
     }
 
     /**
-     * toString
+     * Add teams
      *
-     * @return text
+     * @param \Mybets\ResultBundle\Entity\Team $teams
+     * @return Tournament
      */
-    public function __toString()
+    public function addTeam(\Mybets\ResultBundle\Entity\Team $teams)
     {
-        return $this->getName();
+        $this->teams[] = $teams;
+    
+        return $this;
+    }
+
+    /**
+     * Remove teams
+     *
+     * @param \Mybets\ResultBundle\Entity\Team $teams
+     */
+    public function removeTeam(\Mybets\ResultBundle\Entity\Team $teams)
+    {
+        $this->teams->removeElement($teams);
+    }
+
+    /**
+     * Get teams
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }
