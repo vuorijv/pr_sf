@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Sport
+ * Mybets\ResultBundle\Entity\Team
  *
- * @ORM\Table(name="sport")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\SportRepository")
+ * @ORM\Table(name="team")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\TeamRepository")
  *
  */
-class Sport
+class Team
 {
     /**
      * @var integer $id
@@ -30,14 +30,27 @@ class Sport
     protected $name;
 
     /**
+    * @Gedmo\Slug(fields={"name"}, unique=false)
+    * @ORM\Column(type="string", length=128, unique=false)
+    */
+    private $slug;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="League", mappedBy="sport", cascade={"all"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="teams")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id", nullable=true)
      */
-    protected $leagues;
+    protected $tournament;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Club", inversedBy="teams")
+     * @ORM\JoinColumn(name="club_id", referencedColumnName="id", nullable=true)
+     */
+    protected $club;
 
     /**
      * @var datetime $created
@@ -59,8 +72,9 @@ class Sport
 
     public function __construct()
     {
-        $this->leagues = new ArrayCollection();
+        ##$this->tournaments = new ArrayCollection();
     }
+
 
     public function __toString()
     {
@@ -68,10 +82,12 @@ class Sport
         else return "";
     }
 
+
+
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -82,16 +98,19 @@ class Sport
      * Set name
      *
      * @param string $name
+     * @return Team
      */
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
     }
 
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -99,19 +118,45 @@ class Sport
     }
 
     /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Team
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
      * Set description
      *
-     * @param text $description
+     * @param string $description
+     * @return Team
      */
     public function setDescription($description)
     {
         $this->description = $description;
+    
+        return $this;
     }
 
     /**
      * Get description
      *
-     * @return text
+     * @return string 
      */
     public function getDescription()
     {
@@ -121,17 +166,20 @@ class Sport
     /**
      * Set created
      *
-     * @param datetime $created
+     * @param \DateTime $created
+     * @return Team
      */
     public function setCreated($created)
     {
         $this->created = $created;
+    
+        return $this;
     }
 
     /**
      * Get created
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getCreated()
     {
@@ -141,52 +189,69 @@ class Sport
     /**
      * Set updated
      *
-     * @param datetime $updated
+     * @param \DateTime $updated
+     * @return Team
      */
     public function setUpdated($updated)
     {
         $this->updated = $updated;
+    
+        return $this;
     }
 
     /**
      * Get updated
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getUpdated()
     {
         return $this->updated;
     }
 
-
     /**
-     * Add league
+     * Set tournament
      *
-     * @param Mybets\ResultBundle\Entity\League $league
+     * @param \Mybets\ResultBundle\Entity\Tournament $tournament
+     * @return Team
      */
-    public function addLeague(\Mybets\ResultBundle\Entity\League $league)
+    public function setTournament(\Mybets\ResultBundle\Entity\Tournament $tournament = null)
     {
-        $this->leagues[] = $league;
+        $this->tournament = $tournament;
+    
+        return $this;
     }
 
     /**
-     * Remove league
+     * Get tournament
      *
-     * @param Mybets\ResultBundle\Entity\League $league
+     * @return \Mybets\ResultBundle\Entity\Tournament 
      */
-    public function removeLeague(\Mybets\ResultBundle\Entity\League $league)
+    public function getTournament()
     {
-        $this->leagues->removeElement($league);
+        return $this->tournament;
     }
 
     /**
-     * Get leagues
+     * Set club
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @param \Mybets\ResultBundle\Entity\Club $club
+     * @return Team
      */
-    public function getLeagues()
+    public function setClub(\Mybets\ResultBundle\Entity\Club $club = null)
     {
-        return $this->leagues;
+        $this->club = $club;
+    
+        return $this;
     }
 
+    /**
+     * Get club
+     *
+     * @return \Mybets\ResultBundle\Entity\Club 
+     */
+    public function getClub()
+    {
+        return $this->club;
+    }
 }
