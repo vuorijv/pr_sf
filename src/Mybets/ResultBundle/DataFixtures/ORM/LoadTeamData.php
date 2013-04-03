@@ -18,15 +18,16 @@ class LoadTeamData extends AbstractFixture implements OrderedFixtureInterface
                        "club-realmadrid"    => array('name' => "Real Madrid", 'tournaments' => array('la-liga13', 'ucl13')));
         foreach($teams as $ref => $s)
         {
-            $team = new Team();
-            $team->setName($s['name']);
-            $team->setClub($this->getReference($ref));
             foreach($s['tournaments'] as $tref)
             {
+		$team = new Team();
+            	$team->setName($s['name']);
+            	$team->setClub($this->getReference($ref));
                 $team->setTournament($this->getReference($tref));
+		$manager->persist($team);
+                $this->addReference(str_replace("club", "$tref", $ref), $team);
             }
-            $manager->persist($team);
-            $this->addReference(str_replace("club-", "", $ref), $team);
+            
         }
         $manager->flush();
     }

@@ -30,8 +30,8 @@ class Team
     protected $name;
 
     /**
-    * @Gedmo\Slug(fields={"name"}, unique=false)
-    * @ORM\Column(type="string", length=128, unique=false)
+    * @Gedmo\Slug(fields={"name"}, unique=true)
+    * @ORM\Column(type="string", length=128, unique=true)
     */
     private $slug;
 
