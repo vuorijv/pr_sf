@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Tournament
+ * Mybets\ResultBundle\Entity\FormIcon
  *
- * @ORM\Table(name="tournament")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\TournamentRepository")
+ * @ORM\Table(name="form_icon")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\FormIconRepository")
  *
  */
-class Tournament
+class FormIcon
 {
     /**
      * @var integer $id
@@ -30,20 +30,14 @@ class Tournament
     protected $name;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $description;
+    protected $city;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="tournaments")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToMany(targetEntity="UserTeam", mappedBy="form_icon", cascade={"all"}, orphanRemoval=true)
      */
-    protected $league;
-
-    /**
-    * @ORM\OneToMany(targetEntity="Team", mappedBy="league", cascade={"all"}, orphanRemoval=true)
-    */
-    protected $teams;
+    protected $user_teams;
 
     /**
      * @var datetime $created
@@ -65,13 +59,22 @@ class Tournament
 
     public function __construct()
     {
-        ##$this->tournaments = new ArrayCollection();
+        $this->leagues = new ArrayCollection();
     }
+
+    public function __toString()
+    {
+        if($this->getName() !== null) return $this->getName();
+        else return "";
+    }
+
+
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -82,16 +85,19 @@ class Tournament
      * Set name
      *
      * @param string $name
+     * @return FormIcon
      */
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
     }
 
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -99,39 +105,45 @@ class Tournament
     }
 
     /**
-     * Set description
+     * Set city
      *
-     * @param text $description
+     * @param string $city
+     * @return FormIcon
      */
-    public function setDescription($description)
+    public function setCity($city)
     {
-        $this->description = $description;
+        $this->city = $city;
+    
+        return $this;
     }
 
     /**
-     * Get description
+     * Get city
      *
-     * @return text
+     * @return string 
      */
-    public function getDescription()
+    public function getCity()
     {
-        return $this->description;
+        return $this->city;
     }
 
     /**
      * Set created
      *
-     * @param datetime $created
+     * @param \DateTime $created
+     * @return FormIcon
      */
     public function setCreated($created)
     {
         $this->created = $created;
+    
+        return $this;
     }
 
     /**
      * Get created
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getCreated()
     {
@@ -141,74 +153,56 @@ class Tournament
     /**
      * Set updated
      *
-     * @param datetime $updated
+     * @param \DateTime $updated
+     * @return FormIcon
      */
     public function setUpdated($updated)
     {
         $this->updated = $updated;
+    
+        return $this;
     }
 
     /**
      * Get updated
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getUpdated()
     {
         return $this->updated;
     }
 
-
     /**
-     * Get league
+     * Add user_teams
      *
-     * @return Mybets\ResultBundle\Entity\League
+     * @param \Mybets\ResultBundle\Entity\UserTeam $userTeams
+     * @return FormIcon
      */
-    public function getLeague()
+    public function addUserTeam(\Mybets\ResultBundle\Entity\UserTeam $userTeams)
     {
-        return $this->league;
-    }
-
-    /**
-     * Set league
-     *
-     * @param Mybets\ResultBundle\Entity\League $league
-     */
-    public function setLeague($league)
-    {
-        $this->league = $league;
-    }
-
-    /**
-     * Add teams
-     *
-     * @param \Mybets\ResultBundle\Entity\Team $teams
-     * @return Tournament
-     */
-    public function addTeam(\Mybets\ResultBundle\Entity\Team $teams)
-    {
-        $this->teams[] = $teams;
+        $this->user_teams[] = $userTeams;
     
         return $this;
     }
 
     /**
-     * Remove teams
+     * Remove user_teams
      *
-     * @param \Mybets\ResultBundle\Entity\Team $teams
+     * @param \Mybets\ResultBundle\Entity\UserTeam $userTeams
      */
-    public function removeTeam(\Mybets\ResultBundle\Entity\Team $teams)
+    public function removeUserTeam(\Mybets\ResultBundle\Entity\UserTeam $userTeams)
     {
-        $this->teams->removeElement($teams);
+        $this->user_teams->removeElement($userTeams);
     }
 
     /**
-     * Get teams
+     * Get user_teams
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getTeams()
+    public function getUserTeams()
     {
-        return $this->teams;
+        return $this->user_teams;
     }
 }

@@ -18,6 +18,12 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="\Mybets\ResultBundle\Entity\UserTeam", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $user_teams;
+    
 
     public function __construct()
     {

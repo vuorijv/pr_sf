@@ -51,6 +51,17 @@ class Team
      * @ORM\JoinColumn(name="club_id", referencedColumnName="id", nullable=true)
      */
     protected $club;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Match", mappedBy="team_home", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $matches_home;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Match", mappedBy="team_away", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $matches_away;
+    
 
     /**
      * @var datetime $created
@@ -253,5 +264,71 @@ class Team
     public function getClub()
     {
         return $this->club;
+    }
+
+    /**
+     * Add matches_home
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matchesHome
+     * @return Team
+     */
+    public function addMatchesHome(\Mybets\ResultBundle\Entity\Match $matchesHome)
+    {
+        $this->matches_home[] = $matchesHome;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matches_home
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matchesHome
+     */
+    public function removeMatchesHome(\Mybets\ResultBundle\Entity\Match $matchesHome)
+    {
+        $this->matches_home->removeElement($matchesHome);
+    }
+
+    /**
+     * Get matches_home
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatchesHome()
+    {
+        return $this->matches_home;
+    }
+
+    /**
+     * Add matches_away
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matchesAway
+     * @return Team
+     */
+    public function addMatchesAway(\Mybets\ResultBundle\Entity\Match $matchesAway)
+    {
+        $this->matches_away[] = $matchesAway;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matches_away
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matchesAway
+     */
+    public function removeMatchesAway(\Mybets\ResultBundle\Entity\Match $matchesAway)
+    {
+        $this->matches_away->removeElement($matchesAway);
+    }
+
+    /**
+     * Get matches_away
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatchesAway()
+    {
+        return $this->matches_away;
     }
 }

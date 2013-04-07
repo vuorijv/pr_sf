@@ -41,9 +41,14 @@ class Tournament
     protected $league;
 
     /**
-    * @ORM\OneToMany(targetEntity="Team", mappedBy="league", cascade={"all"}, orphanRemoval=true)
+    * @ORM\OneToMany(targetEntity="Team", mappedBy="tournament", cascade={"all"}, orphanRemoval=true)
     */
     protected $teams;
+
+	/**
+    * @ORM\OneToMany(targetEntity="Match", mappedBy="tournament", cascade={"all"}, orphanRemoval=true)
+    */
+    protected $matches;
 
     /**
      * @var datetime $created
@@ -216,5 +221,38 @@ class Tournament
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * Add matches
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matches
+     * @return Tournament
+     */
+    public function addMatche(\Mybets\ResultBundle\Entity\Match $matches)
+    {
+        $this->matches[] = $matches;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matches
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matches
+     */
+    public function removeMatche(\Mybets\ResultBundle\Entity\Match $matches)
+    {
+        $this->matches->removeElement($matches);
+    }
+
+    /**
+     * Get matches
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatches()
+    {
+        return $this->matches;
     }
 }
