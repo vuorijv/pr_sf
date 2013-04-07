@@ -40,6 +40,11 @@ class Sport
     protected $leagues;
 
     /**
+     * @ORM\OneToMany(targetEntity="PowerType", mappedBy="sport", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $power_types;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")

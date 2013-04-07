@@ -46,6 +46,12 @@ class UserTeam
      * @ORM\JoinColumn(name="from_icon_id", referencedColumnName="id", nullable=true)
      */
     protected $form_icon;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="UserTeamPower", mappedBy="user_team", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $user_team_powers;
+    
 
     /**
      * @var datetime $created
@@ -227,5 +233,38 @@ class UserTeam
     public function getFormIcon()
     {
         return $this->form_icon;
+    }
+
+    /**
+     * Add user_team_powers
+     *
+     * @param \Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers
+     * @return UserTeam
+     */
+    public function addUserTeamPower(\Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers)
+    {
+        $this->user_team_powers[] = $userTeamPowers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove user_team_powers
+     *
+     * @param \Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers
+     */
+    public function removeUserTeamPower(\Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers)
+    {
+        $this->user_team_powers->removeElement($userTeamPowers);
+    }
+
+    /**
+     * Get user_team_powers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserTeamPowers()
+    {
+        return $this->user_team_powers;
     }
 }
