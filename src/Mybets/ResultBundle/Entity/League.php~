@@ -68,6 +68,13 @@ class League
         ##$this->tournaments = new ArrayCollection();
     }
 
+
+    public function __toString()
+    {
+        if($this->getName() !== null) return $this->getName();
+        else return "";
+    }
+
     /**
      * Get id
      *
@@ -207,5 +214,28 @@ class League
     public function setSport($sport)
     {
         $this->sport = $sport;
+    }
+
+    /**
+     * Add tournaments
+     *
+     * @param \Mybets\ResultBundle\Entity\Tournament $tournaments
+     * @return League
+     */
+    public function addTournament(\Mybets\ResultBundle\Entity\Tournament $tournaments)
+    {
+        $this->tournaments[] = $tournaments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tournaments
+     *
+     * @param \Mybets\ResultBundle\Entity\Tournament $tournaments
+     */
+    public function removeTournament(\Mybets\ResultBundle\Entity\Tournament $tournaments)
+    {
+        $this->tournaments->removeElement($tournaments);
     }
 }

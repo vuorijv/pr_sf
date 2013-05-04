@@ -21,5 +21,23 @@
             <argument>Mybets\ResultBundle\Entity\Tournament</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
+        <service id="mybets.result.admin.club" class="Mybets\ResultBundle\Admin\ClubAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Admin" label="Club"/>
+            <argument />
+            <argument>Mybets\ResultBundle\Entity\Club</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        <service id="mybets.result.admin.team" class="Mybets\ResultBundle\Admin\TeamAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Admin" label="Team"/>
+            <argument />
+            <argument>Mybets\ResultBundle\Entity\Team</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        <service id="mybets.result.admin.match" class="Mybets\ResultBundle\Admin\MatchAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Admin" label="Match"/>
+            <argument />
+            <argument>Mybets\ResultBundle\Entity\Match</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
     </services>
 </container>

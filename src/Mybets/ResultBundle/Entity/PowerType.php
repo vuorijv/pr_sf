@@ -7,13 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Mybets\ResultBundle\Entity\Sport
+ * Mybets\ResultBundle\Entity\PowerType
  *
- * @ORM\Table(name="sport")
- * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\SportRepository")
+ * @ORM\Table(name="power_type")
+ * @ORM\Entity(repositoryClass="Mybets\ResultBundle\Entity\PowerTypeRepository")
  *
  */
-class Sport
+class PowerType
 {
     /**
      * @var integer $id
@@ -35,14 +35,16 @@ class Sport
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="League", mappedBy="sport", cascade={"all"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="Sport", inversedBy="power_types")
+     * @ORM\JoinColumn(name="sport_id", referencedColumnName="id", nullable=true)
      */
-    protected $leagues;
-
+    protected $sport;
+    
     /**
-     * @ORM\OneToMany(targetEntity="PowerType", mappedBy="sport", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="UserTeamPower", mappedBy="power_type", cascade={"all"}, orphanRemoval=true)
      */
-    protected $power_types;
+    protected $user_team_powers;
+    
 
     /**
      * @var datetime $created
@@ -64,8 +66,9 @@ class Sport
 
     public function __construct()
     {
-        $this->leagues = new ArrayCollection();
+        ##$this->tournaments = new ArrayCollection();
     }
+
 
     public function __toString()
     {
@@ -73,10 +76,11 @@ class Sport
         else return "";
     }
 
+
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -87,16 +91,19 @@ class Sport
      * Set name
      *
      * @param string $name
+     * @return PowerType
      */
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
     }
 
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -106,17 +113,20 @@ class Sport
     /**
      * Set description
      *
-     * @param text $description
+     * @param string $description
+     * @return PowerType
      */
     public function setDescription($description)
     {
         $this->description = $description;
+    
+        return $this;
     }
 
     /**
      * Get description
      *
-     * @return text
+     * @return string 
      */
     public function getDescription()
     {
@@ -126,17 +136,20 @@ class Sport
     /**
      * Set created
      *
-     * @param datetime $created
+     * @param \DateTime $created
+     * @return PowerType
      */
     public function setCreated($created)
     {
         $this->created = $created;
+    
+        return $this;
     }
 
     /**
      * Get created
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getCreated()
     {
@@ -146,85 +159,79 @@ class Sport
     /**
      * Set updated
      *
-     * @param datetime $updated
+     * @param \DateTime $updated
+     * @return PowerType
      */
     public function setUpdated($updated)
     {
         $this->updated = $updated;
+    
+        return $this;
     }
 
     /**
      * Get updated
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getUpdated()
     {
         return $this->updated;
     }
 
-
     /**
-     * Add league
+     * Set sport
      *
-     * @param Mybets\ResultBundle\Entity\League $league
+     * @param \Mybets\ResultBundle\Entity\Sport $sport
+     * @return PowerType
      */
-    public function addLeague(\Mybets\ResultBundle\Entity\League $league)
+    public function setSport(\Mybets\ResultBundle\Entity\Sport $sport = null)
     {
-        $this->leagues[] = $league;
-    }
-
-    /**
-     * Remove league
-     *
-     * @param Mybets\ResultBundle\Entity\League $league
-     */
-    public function removeLeague(\Mybets\ResultBundle\Entity\League $league)
-    {
-        $this->leagues->removeElement($league);
-    }
-
-    /**
-     * Get leagues
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getLeagues()
-    {
-        return $this->leagues;
-    }
-
-
-    /**
-     * Add power_types
-     *
-     * @param \Mybets\ResultBundle\Entity\PowerType $powerTypes
-     * @return Sport
-     */
-    public function addPowerType(\Mybets\ResultBundle\Entity\PowerType $powerTypes)
-    {
-        $this->power_types[] = $powerTypes;
+        $this->sport = $sport;
     
         return $this;
     }
 
     /**
-     * Remove power_types
+     * Get sport
      *
-     * @param \Mybets\ResultBundle\Entity\PowerType $powerTypes
+     * @return \Mybets\ResultBundle\Entity\Sport 
      */
-    public function removePowerType(\Mybets\ResultBundle\Entity\PowerType $powerTypes)
+    public function getSport()
     {
-        $this->power_types->removeElement($powerTypes);
+        return $this->sport;
     }
 
     /**
-     * Get power_types
+     * Add user_team_powers
+     *
+     * @param \Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers
+     * @return PowerType
+     */
+    public function addUserTeamPower(\Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers)
+    {
+        $this->user_team_powers[] = $userTeamPowers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove user_team_powers
+     *
+     * @param \Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers
+     */
+    public function removeUserTeamPower(\Mybets\ResultBundle\Entity\UserTeamPower $userTeamPowers)
+    {
+        $this->user_team_powers->removeElement($userTeamPowers);
+    }
+
+    /**
+     * Get user_team_powers
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPowerTypes()
+    public function getUserTeamPowers()
     {
-        return $this->power_types;
+        return $this->user_team_powers;
     }
 }

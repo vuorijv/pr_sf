@@ -41,6 +41,16 @@ class Tournament
     protected $league;
 
     /**
+    * @ORM\OneToMany(targetEntity="Team", mappedBy="tournament", cascade={"all"}, orphanRemoval=true)
+    */
+    protected $teams;
+
+	/**
+    * @ORM\OneToMany(targetEntity="Match", mappedBy="tournament", cascade={"all"}, orphanRemoval=true)
+    */
+    protected $matches;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -63,6 +73,12 @@ class Tournament
         ##$this->tournaments = new ArrayCollection();
     }
 
+
+    public function __toString()
+    {
+        if($this->getName() !== null) return $this->getName();
+        else return "";
+    }
     /**
      * Get id
      *
@@ -172,5 +188,71 @@ class Tournament
     public function setLeague($league)
     {
         $this->league = $league;
+    }
+
+    /**
+     * Add teams
+     *
+     * @param \Mybets\ResultBundle\Entity\Team $teams
+     * @return Tournament
+     */
+    public function addTeam(\Mybets\ResultBundle\Entity\Team $teams)
+    {
+        $this->teams[] = $teams;
+    
+        return $this;
+    }
+
+    /**
+     * Remove teams
+     *
+     * @param \Mybets\ResultBundle\Entity\Team $teams
+     */
+    public function removeTeam(\Mybets\ResultBundle\Entity\Team $teams)
+    {
+        $this->teams->removeElement($teams);
+    }
+
+    /**
+     * Get teams
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTeams()
+    {
+        return $this->teams;
+    }
+
+    /**
+     * Add matches
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matches
+     * @return Tournament
+     */
+    public function addMatche(\Mybets\ResultBundle\Entity\Match $matches)
+    {
+        $this->matches[] = $matches;
+    
+        return $this;
+    }
+
+    /**
+     * Remove matches
+     *
+     * @param \Mybets\ResultBundle\Entity\Match $matches
+     */
+    public function removeMatche(\Mybets\ResultBundle\Entity\Match $matches)
+    {
+        $this->matches->removeElement($matches);
+    }
+
+    /**
+     * Get matches
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatches()
+    {
+        return $this->matches;
     }
 }
